@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+    
+    <!-- Add new task form -->
+    <div class="task-form">
+      <form action="/tasks" method="POST">
+        <input 
+          type="text" 
+          name="title" 
+          placeholder="What do you need to accomplish?" 
+          required
+          autocomplete="off"
+        >
+        <button type="submit" class="btn add-btn"><i class="fas fa-plus"></i> Add Task</button>
+      </form>
+    </div>
+    
+    <!-- Task list -->
+    <div class="task-list">
+      <% if (tasks.length === 0) { %>
+        <p class="no-tasks"><%- '<i class="far fa-smile"></i>' %> Your task list is empty. Time to be productive!</p>
+      <% } else { %>
+        <ul>
+          <% tasks.forEach((task, index) => { %>
+            <li class="task-item <%= task.completed ? 'completed' : '' %>" style="--index: <%= index %>">
+              <span class="task-title"><%- task.completed ? '<i class="fas fa-check-circle"></i> ' : '<i class="far fa-circle"></i> ' %><%= task.title %></span>
+              <div class="task-actions">
+                <form action="/tasks/<%= task.id %>/toggle" method="POST" class="inline-form">
+                  <button type="submit" class="btn toggle-btn">
+                    <%- task.completed ? '<i class="fas fa-undo"></i> Undo' : '<i class="fas fa-check"></i> Complete' %>
+                  </button>
+                </form>
+                <form action="/tasks/<%= task.id %>/delete" method="POST" class="inline-form">
+                  <button type="submit" class="btn delete-btn"><%- '<i class="fas fa-trash"></i>' %> Delete</button>
+                </form>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+  <script src="/js/main.js"></script>
+</body>
+</html>
