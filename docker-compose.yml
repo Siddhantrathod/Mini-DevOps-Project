@@ -2,8 +2,6 @@ version: "3.8"
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: siddhantrathod/mini-devops-project-app:latest
     ports:
       - "3000:3000"
